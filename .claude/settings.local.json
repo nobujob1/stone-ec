@@ -20,7 +20,18 @@
       "Bash(git init *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "Bash(export RAILWAY_TOKEN=b23247a6-ed2f-4797-9627-cd89e8aedc08)",
+      "Bash(railway whoami *)",
+      "Bash(export RAILWAY_API_TOKEN=b23247a6-ed2f-4797-9627-cd89e8aedc08)",
+      "Bash(railway --version)",
+      "Bash(railway --help)",
+      "Bash(railway login *)",
+      "Bash(railway service *)",
+      "Bash(railway add *)",
+      "Bash(railway volume *)",
+      "Bash(DATABASE_URL=\"file:./dev.db\" npx prisma *)",
+      "Bash(git -C /mnt/f/Claude/project show HEAD:prisma.config.ts)"
     ]
   }
 }
