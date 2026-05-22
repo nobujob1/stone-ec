@@ -2,4 +2,5 @@
 set -e
 
 npx prisma migrate deploy
+npx tsx prisma/seed.ts
 npx next start
