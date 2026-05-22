@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 
 type CartItem = {
@@ -38,6 +38,7 @@ export async function POST(req: Request) {
     };
   });
 
+  const stripe = getStripe();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const session = await stripe.checkout.sessions.create({

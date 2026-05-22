@@ -1,9 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
-
-export const config = { api: { bodyParser: false } };
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -11,6 +9,7 @@ export async function POST(req: Request) {
 
   if (!sig) return NextResponse.json({ error: "署名なし" }, { status: 400 });
 
+  const stripe = getStripe();
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
