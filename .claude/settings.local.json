@@ -31,7 +31,8 @@
       "Bash(railway add *)",
       "Bash(railway volume *)",
       "Bash(DATABASE_URL=\"file:./dev.db\" npx prisma *)",
-      "Bash(git -C /mnt/f/Claude/project show HEAD:prisma.config.ts)"
+      "Bash(git -C /mnt/f/Claude/project show HEAD:prisma.config.ts)",
+      "Bash(railway link *)"
     ]
   }
 }
