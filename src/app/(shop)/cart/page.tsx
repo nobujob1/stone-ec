@@ -45,9 +45,7 @@ export default function CartPage() {
         body: JSON.stringify({ items: cart }),
       });
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      }
+      if (data.url) window.location.href = data.url;
     } catch {
       alert("決済の準備中にエラーが発生しました");
     } finally {
@@ -57,60 +55,72 @@ export default function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="text-center py-20">
-        <p className="text-stone-400 text-lg">カートは空です</p>
-        <Link href="/" className="mt-4 inline-block text-stone-600 hover:text-stone-800 underline underline-offset-2">
-          商品一覧を見る
+      <div className="text-center py-24 px-6">
+        <p className="font-serif text-3xl font-light tracking-widest text-taupe-600 mb-3">
+          Cart is Empty
+        </p>
+        <p className="text-taupe-400 text-xs tracking-widest mb-8">カートに商品がありません</p>
+        <Link
+          href="/"
+          className="text-[10px] tracking-[0.25em] uppercase text-gold-500 hover:text-gold-700 border-b border-gold-400 pb-0.5 transition-colors"
+        >
+          View Collection
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-semibold text-stone-700 mb-6">カート</h1>
-      <div className="space-y-4">
+    <div className="max-w-2xl mx-auto px-6 py-12">
+      <h1 className="font-serif text-3xl font-light tracking-widest text-taupe-900 mb-10">
+        Shopping Cart
+      </h1>
+
+      <div className="divide-y divide-sand-200 border-t border-sand-200">
         {cart.map((item) => (
-          <div key={item.id} className="bg-white rounded-lg border border-stone-100 p-4 flex gap-4">
-            <div className="w-20 h-20 bg-stone-100 rounded-md overflow-hidden relative flex-shrink-0">
+          <div key={item.id} className="flex gap-5 py-6">
+            <div className="w-20 h-20 bg-sand-100 overflow-hidden relative flex-shrink-0 border border-sand-200">
               {item.imageUrl ? (
                 <Image src={item.imageUrl} alt={item.name} fill className="object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-stone-300 text-xs">画像なし</div>
+                <div className="w-full h-full flex items-center justify-center text-sand-300 text-xs">—</div>
               )}
             </div>
             <div className="flex-1">
-              <p className="font-medium text-stone-800">{item.name}</p>
-              <p className="text-stone-600 text-sm mt-1">¥{item.price.toLocaleString()}</p>
-              <div className="flex items-center gap-3 mt-2">
-                <div className="flex items-center border border-stone-200 rounded">
-                  <button onClick={() => update(item.id, item.quantity - 1)} className="px-2 py-1 text-stone-600 hover:bg-stone-50 text-sm">−</button>
-                  <span className="px-3 py-1 text-sm">{item.quantity}</span>
-                  <button onClick={() => update(item.id, item.quantity + 1)} className="px-2 py-1 text-stone-600 hover:bg-stone-50 text-sm">＋</button>
+              <p className="font-serif text-base font-light tracking-wide text-taupe-800">{item.name}</p>
+              <p className="text-taupe-400 text-xs mt-1 tracking-wider">¥{item.price.toLocaleString()}</p>
+              <div className="flex items-center gap-4 mt-3">
+                <div className="flex items-center border border-sand-300">
+                  <button onClick={() => update(item.id, item.quantity - 1)} className="w-7 h-7 flex items-center justify-center text-taupe-600 hover:bg-sand-100 text-sm transition-colors">−</button>
+                  <span className="w-8 text-center text-xs text-taupe-800">{item.quantity}</span>
+                  <button onClick={() => update(item.id, item.quantity + 1)} className="w-7 h-7 flex items-center justify-center text-taupe-600 hover:bg-sand-100 text-sm transition-colors">＋</button>
                 </div>
-                <button onClick={() => update(item.id, 0)} className="text-xs text-stone-400 hover:text-red-400 transition-colors">削除</button>
+                <button onClick={() => update(item.id, 0)} className="text-[10px] tracking-widest uppercase text-taupe-400 hover:text-red-400 transition-colors">Remove</button>
               </div>
             </div>
-            <div className="text-right flex-shrink-0">
-              <p className="font-semibold text-stone-700">¥{(item.price * item.quantity).toLocaleString()}</p>
+            <div className="text-right flex-shrink-0 pt-1">
+              <p className="font-serif text-base text-gold-600 tracking-wide">¥{(item.price * item.quantity).toLocaleString()}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-6 bg-white rounded-lg border border-stone-100 p-4">
-        <div className="flex justify-between text-lg font-semibold text-stone-800">
-          <span>合計</span>
-          <span>¥{total.toLocaleString()}</span>
+      <div className="mt-8 pt-6 border-t border-sand-300">
+        <div className="flex justify-between items-baseline mb-2">
+          <span className="text-[10px] tracking-[0.25em] uppercase text-taupe-500">Subtotal</span>
+          <span className="font-serif text-2xl font-light text-taupe-900 tracking-wide">¥{total.toLocaleString()}</span>
         </div>
-        <p className="text-xs text-stone-400 mt-1">※ 送料は別途かかります</p>
+        <p className="text-[10px] tracking-wider text-taupe-400 mb-6">※ 送料別途</p>
         <button
           onClick={handleCheckout}
           disabled={loading}
-          className="w-full mt-4 bg-stone-700 text-white py-3 rounded-lg hover:bg-stone-800 transition-colors font-medium disabled:opacity-50"
+          className="w-full bg-gold-500 hover:bg-gold-600 disabled:opacity-50 text-white py-4 text-xs tracking-[0.2em] uppercase transition-colors"
         >
-          {loading ? "準備中..." : "Stripeで決済する"}
+          {loading ? "Processing..." : "Checkout"}
         </button>
+        <Link href="/" className="block text-center mt-4 text-[10px] tracking-[0.2em] uppercase text-taupe-400 hover:text-taupe-600 transition-colors">
+          Continue Shopping
+        </Link>
       </div>
     </div>
   );
