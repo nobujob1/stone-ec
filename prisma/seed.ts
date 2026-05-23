@@ -102,13 +102,20 @@ async function main() {
   });
   console.log("管理者アカウントを作成しました: admin@example.com / admin1234");
 
-  // 商品（0件の場合のみ追加）
+  // 商品（0件の場合は追加、既存の場合は画像URLのみ更新）
   const count = await prisma.product.count();
   if (count === 0) {
     await prisma.product.createMany({ data: sampleProducts });
     console.log(`サンプル商品を ${sampleProducts.length} 件追加しました`);
   } else {
-    console.log(`商品はすでに ${count} 件あるためスキップしました`);
+    const products = await prisma.product.findMany({ orderBy: { id: "asc" } });
+    for (let i = 0; i < Math.min(products.length, sampleProducts.length); i++) {
+      await prisma.product.update({
+        where: { id: products[i].id },
+        data: { imageUrl: sampleProducts[i].imageUrl },
+      });
+    }
+    console.log(`商品画像URLを ${Math.min(products.length, sampleProducts.length)} 件更新しました`);
   }
 }
 
