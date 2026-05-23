@@ -30,6 +30,7 @@ export async function POST(req: Request) {
         currency: "jpy",
         product_data: {
           name: product.name,
+          metadata: { productId: String(product.id) },
           ...(product.imageUrl ? { images: [product.imageUrl] } : {}),
         },
         unit_amount: product.price,
